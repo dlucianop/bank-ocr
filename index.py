@@ -1,16 +1,42 @@
-"""
- _
-|_|
-|_|
+import tkinter as tk
+from tkinter import filedialog
+import os
 
-"""
+def index():
+    ventana = tk.Tk()
+    ventana.title("Bank OCR")
+    ventana.geometry("400x300")
+    btn_seleccionar_archivo = tk.Button(ventana, text="Seleccionar Archivo", command=openFile)
+    btn_seleccionar_archivo.pack(pady=10)
 
+    ventana.mainloop()
 
-"""La maquina escanea los documentos en papel y produce un archivo con la cantidad de entradas 
-cada entrada tiene 4 lineas y cada linea 27 caracteres 
-las primera 3 lineas tienen una entrada con un numero de cuenta como el de arriba pipes y guiones bajos
-la cuarta esta en blanco
-cada no de cuenta tiene que tener 9 digitios
-de rango 0-9, un archivo normal contiene alrededor de 500 entradas
+def openFile():
+    dir_actual = os.path.dirname(os.path.realpath(__file__))
+    archivo = filedialog.askopenfilename(initialdir=dir_actual, title="Seleccionar archivo", filetypes=(("Archivos de texto", "*.txt"), ("Todos los archivos", "*.*")))
+    if archivo:
+        conversion_first_h(archivo)
 
-TOMA EL ARCHIVO y conviertelos en numeros de cuenta reales"""
+def conversion_first_h(archivo):
+    with open(archivo, 'r') as file:
+        num_cuenta = []
+        for linea in file:
+            num_cuenta.append(linea)
+            if len(num_cuenta) == 4:
+                numeration(num_cuenta)
+                num_cuenta = []
+
+def numeration(cuenta):
+    """
+    [0][0] [0][1] [0][2]
+    [1][0] [1][1] [1][2]
+    [2][0] [2][1] [2][2]"""
+    pass
+
+def validation_second_h():
+    pass
+
+def verification_third_h():
+    pass
+
+index()
