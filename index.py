@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import filedialog
 import os
+import re
 
 def index():
     ventana = tk.Tk()
@@ -21,8 +22,10 @@ def conversion_first_h(archivo):
     with open(archivo, 'r') as file:
         num_cuenta = []
         for linea in file:
-            num_cuenta.append(linea)
+            num_cuenta.append(re.split(r'(\s+)', linea))
+            
             if len(num_cuenta) == 4:
+                print(num_cuenta)
                 numeration(num_cuenta)
                 num_cuenta = []
 
@@ -31,7 +34,9 @@ def numeration(cuenta):
     [0][0] [0][1] [0][2]
     [1][0] [1][1] [1][2]
     [2][0] [2][1] [2][2]"""
-    pass
+    for fila, lista in enumerate(cuenta):
+        for columna, elemento in enumerate(lista):
+            print(f"Elemento '{elemento}' en la posición ({fila}, {columna})")
 
 def validation_second_h():
     pass
