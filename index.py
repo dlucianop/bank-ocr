@@ -1,7 +1,6 @@
 import tkinter as tk
 from tkinter import filedialog
 import os
-import re
 from numeros import representaciones
 
 def index():
@@ -13,11 +12,29 @@ def index():
 
     ventana.mainloop()
 
+def reporte(datos):
+    with open("reporte.txt", "a") as archivo:
+        archivo.write(datos + "\n")
+        print("Contenido modificado.")
+
+def verificarRegistros():
+    pass
+
 def openFile():
     dir_actual = os.path.dirname(os.path.realpath(__file__))
     archivo = filedialog.askopenfilename(initialdir=dir_actual, title="Seleccionar archivo", filetypes=(("Archivos de texto", "*.txt"), ("Todos los archivos", "*.*")))
-    if archivo:
+    if verificarArchivoTipo(archivo):
         conversion_first_h(archivo)
+    else:
+        print("No se puede abrir el archivo. El contenido no es válido.")
+
+def verificarArchivoTipo(archivo):
+    with open(archivo, "r") as file:
+        contenido = file.read()
+        if all(caracter in ' _|\n' for caracter in contenido):
+            return True
+        else:
+            return False
 
 def conversion_first_h(archivo):
     with open(archivo, 'r') as file:
@@ -31,7 +48,7 @@ def conversion_first_h(archivo):
             if len(num_cuenta) == 3:
                 encontrar_coincidencia(num_cuenta, representaciones)
                 num_cuenta = []
-    print("Done")
+    print("Archivo de reporte generado con éxito.")
 
 
 
@@ -88,6 +105,7 @@ def validation_second_h(numero_cuenta):
     print()
 
 def verification_third_h(cuenta, estado):
-    print("=> {} {}".format(cuenta, estado))
+    datos = ("=> {} {}".format(cuenta, estado))
+    reporte(datos)
 
 index()
