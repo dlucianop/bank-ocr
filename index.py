@@ -13,12 +13,24 @@ def index():
     ventana.mainloop()
 
 def reporte(datos):
-    with open("reporte.txt", "a") as archivo:
-        archivo.write(datos + "\n")
-        print("Contenido modificado.")
+    if not os.path.exists("reporte.txt"):
+        with open("reporte.txt", "w") as archivo:
+            archivo.write("") 
 
-def verificarRegistros():
-    pass
+    if not verificarRegistros(datos):
+        with open("reporte.txt", "a") as archivo:
+            archivo.write(datos + "\n")
+            print("Contenido modificado.")
+    else:
+        print("Contenido no modificado. Ya existe el numero de cuenta")
+
+def verificarRegistros(nueva_cuenta):
+    with open("reporte.txt", "r") as archivo:
+        lineas = archivo.readlines()
+        if nueva_cuenta + "\n" in lineas:
+            return True
+        else:
+            return False
 
 def openFile():
     dir_actual = os.path.dirname(os.path.realpath(__file__))
