@@ -31,9 +31,6 @@ def conversion_first_h(archivo):
             if len(num_cuenta) == 3:
                 encontrar_coincidencia(num_cuenta, representaciones)
                 num_cuenta = []
-            print()
-            print()
-                
     print("Done")
 
 
@@ -49,7 +46,8 @@ def encontrar_coincidencia(num_cuenta, representaciones):
                 matriz_indice = (indice + 1) // 4
                 digitos[matriz_indice].append(grupo_actual)
                 grupo_actual = [] 
-
+    
+    final_number = ""
     for indice, digito in enumerate(digitos):
         digito_format = [''.join(row) for row in digito]
         coincidencia = False
@@ -57,17 +55,39 @@ def encontrar_coincidencia(num_cuenta, representaciones):
             if len(digito_format) == 2:
                 digito_format.insert(0, '   ')
             if value == digito_format:
-                print("Digito coincidente {}".format(key))
+                #print("Digito coincidente {}".format(key))
                 coincidencia = True
+                final_number += str(key)
                 break
         if coincidencia == False:
-            print("Digito no coincidente {}".format("?"))
+            final_number += "?"
+            #print("Digito no coincidente {}".format("?"))
+    validation_second_h(final_number)
+    final_number = ""
 
+def validation_second_h(numero_cuenta):
+    sumatoria = 0
+    for posicion, dx in enumerate(reversed(numero_cuenta)):
+        try:
+            sumatoria += (posicion+1)* int(dx)
+            #print(posicion+1,"*",dx)
+        except:
+            sumatoria -= 500
+            break
 
-def validation_second_h():
-    pass
+    if (sumatoria % 11 == 0 and sumatoria >= 0):
+        #print("OK")
+        verification_third_h(numero_cuenta, "OK")
+    elif (sumatoria < 0):
+        #print("ILL")
+        verification_third_h(numero_cuenta, "ILL")
+    else:
+        #print("ERR")
+        verification_third_h(numero_cuenta, "ERR")
+    sumatoria = 0
+    print()
 
-def verification_third_h():
-    pass
+def verification_third_h(cuenta, estado):
+    print("=> {} {}".format(cuenta, estado))
 
 index()
